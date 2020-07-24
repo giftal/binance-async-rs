@@ -6,4 +6,11 @@ pub mod error;
 pub mod model;
 mod transport;
 
-pub use crate::client::{websocket::BinanceWebsocket, Binance};
+pub use crate::client::{
+    websocket::BinanceWebsocket,
+    Binance,
+    {
+        NewOrderRespType, OrderRequest, OrderResponse, OrderStatus, OrderType, PositionSide, Side,
+        TimeInForce, WorkingType,
+    },
+};

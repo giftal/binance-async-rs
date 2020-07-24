@@ -3,8 +3,12 @@ mod general;
 mod market;
 mod userstream;
 pub mod websocket;
-
+//make OrderRequest publically available
 use crate::transport::Transport;
+pub use account::{
+    NewOrderRespType, OrderRequest, OrderResponse, OrderStatus, OrderType, PositionSide, Side,
+    TimeInForce, WorkingType,
+};
 
 #[derive(Clone, Default)]
 pub struct Binance {

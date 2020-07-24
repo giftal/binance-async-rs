@@ -8,11 +8,9 @@ use serde_json::Value;
 
 impl Binance {
     // Test connectivity
-    pub fn ping(&self) -> Fallible<impl Future<Output = Fallible<String>>> {
-        Ok(self
-            .transport
-            .get::<_, ()>("/api/v1/ping", None)?
-            .map_ok(|_: Value| "pong".into()))
+    pub fn ping(&self) -> Fallible<impl Future<Output = Fallible<Value>>> {
+        Ok(self.transport.get::<_, ()>("/fapi/v1/listenKey", None)?)
+        //.map_ok(|_: Value| "pong".into()))
     }
 
     // Check server time

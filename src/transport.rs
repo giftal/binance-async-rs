@@ -2,20 +2,20 @@ use crate::error::{BinanceResponse, Error};
 use chrono::Utc;
 use failure::Fallible;
 use futures::prelude::*;
-use headers::*;
+use headers::{HeaderName, HeaderValue};
 use hex::encode as hexify;
 use hmac::{Hmac, Mac};
 use http::Method;
 use once_cell::sync::OnceCell;
-use reqwest_ext::*;
+use reqwest_ext::TypedHeaderExt;
 use serde::{de::DeserializeOwned, Serialize};
 use serde_json::{to_string, to_value, Value};
 use sha2::Sha256;
 use std::str::FromStr;
-use tracing::*;
+use tracing::{callsite, trace};
 use url::Url;
 
-const BASE: &str = "https://www.binance.com";
+const BASE: &str = "https://fapi.binance.com";
 const RECV_WINDOW: usize = 5000;
 
 pub struct BinanceApiKey(pub String);
@@ -207,12 +207,20 @@ impl Transport {
         let req = req.body(body);
 
         Ok(async move {
-            Ok(req
-                .send()
-                .await?
-                .json::<BinanceResponse<_>>()
-                .await?
-                .into_result()?)
+            let m = req.send().await?;
+
+            let body = m.text().await?;
+            // println!("{:?}", body);
+
+            // if body.is_empty() {
+            //     body = "{}".to_string();
+            // }
+            let jso: BinanceResponse<_> = serde_json::from_str(&body).map_err(|e| {
+                eprintln!("{}", body);
+                e
+            })?; //json::<BinanceResponse<_>>().await?;
+
+            Ok(jso.into_result()?)
         })
     }
 
@@ -250,12 +258,27 @@ impl Transport {
             .body(body);
 
         Ok(async move {
-            Ok(req
-                .send()
-                .await?
-                .json::<BinanceResponse<_>>()
-                .await?
-                .into_result()?)
+            // Ok(req
+            //     .send()
+            //     .await?
+            //     .json::<BinanceResponse<_>>()
+            //     .await?
+            //     .into_result()?)
+
+            let m = req.send().await?;
+
+            let body = m.text().await?;
+            // println!("{:?}", body);
+
+            // if body.is_empty() {
+            //     body = "{}".to_string();
+            // }
+            let jso: BinanceResponse<_> = serde_json::from_str(&body).map_err(|e| {
+                eprintln!("{}", body);
+                e
+            })?; //json::<BinanceResponse<_>>().await?;
+
+            Ok(jso.into_result()?)
         })
     }
 

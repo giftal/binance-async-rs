@@ -34,25 +34,25 @@ async fn main() -> Fallible<()> {
         Err(e) => println!("Error: {}", e),
     }
 
-    match bn.limit_buy("ETHBTC", 1., 0.1)?.await {
-        Ok(answer) => println!("{:?}", answer),
-        Err(e) => println!("Error: {}", e),
-    }
+    // match bn.limit_buy("ETHBTC", 1., 0.1)?.await {
+    //     Ok(answer) => println!("{:?}", answer),
+    //     Err(e) => println!("Error: {}", e),
+    // }
 
-    match bn.market_buy("WTCETH", 5.)?.await {
-        Ok(answer) => println!("{:?}", answer),
-        Err(e) => println!("Error: {}", e),
-    }
+    // match bn.market_buy("WTCETH", 5.)?.await {
+    //     Ok(answer) => println!("{:?}", answer),
+    //     Err(e) => println!("Error: {}", e),
+    // }
 
-    match bn.limit_sell("WTCETH", 10., 0.035_000)?.await {
-        Ok(answer) => println!("{:?}", answer),
-        Err(e) => println!("Error: {}", e),
-    }
+    // match bn.limit_sell("WTCETH", 10., 0.035_000)?.await {
+    //     Ok(answer) => println!("{:?}", answer),
+    //     Err(e) => println!("Error: {}", e),
+    // }
 
-    match bn.market_sell("WTCETH", 5.)?.await {
-        Ok(answer) => println!("{:?}", answer),
-        Err(e) => println!("Error: {}", e),
-    }
+    // match bn.market_sell("WTCETH", 5.)?.await {
+    //     Ok(answer) => println!("{:?}", answer),
+    //     Err(e) => println!("Error: {}", e),
+    // }
 
     match bn.order_status("WTCETH", 1_957_528)?.await {
         Ok(answer) => println!("{:?}", answer),

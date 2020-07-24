@@ -22,43 +22,80 @@ pub struct ExchangeInformation {
 #[derive(Debug, Serialize, Deserialize, Clone)]
 #[serde(rename_all = "camelCase")]
 pub struct AccountInformation {
-    pub maker_commission: f32,
-    pub taker_commission: f32,
-    pub buyer_commission: f32,
-    pub seller_commission: f32,
+    pub assets: Vec<Asset>,
+    pub can_deposit: bool,
     pub can_trade: bool,
     pub can_withdraw: bool,
-    pub can_deposit: bool,
-    pub balances: Vec<Balance>,
+    pub fee_tier: i64,
+    pub max_withdraw_amount: String,
+    pub positions: Vec<Position>,
+    pub total_initial_margin: String,
+    pub total_maint_margin: String,
+    pub total_margin_balance: String,
+    pub total_open_order_initial_margin: String,
+    pub total_position_initial_margin: String,
+    pub total_unrealized_profit: String,
+    pub total_wallet_balance: String,
+    pub update_time: i64,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
 #[serde(rename_all = "camelCase")]
-pub struct Balance {
+pub struct Asset {
     pub asset: String,
-    pub free: String,
-    pub locked: String,
+    pub initial_margin: String,
+    pub maint_margin: String,
+    pub margin_balance: String,
+    pub max_withdraw_amount: String,
+    pub open_order_initial_margin: String,
+    pub position_initial_margin: String,
+    pub unrealized_profit: String,
+    pub wallet_balance: String,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone)]
+#[serde(rename_all = "camelCase")]
+pub struct Position {
+    pub entry_price: String,
+    pub initial_margin: String,
+    pub isolated: bool,
+    pub leverage: String,
+    pub maint_margin: String,
+    pub max_notional: String,
+    pub open_order_initial_margin: String,
+    pub position_initial_margin: String,
+    pub position_side: String,
+    pub symbol: String,
+    pub unrealized_profit: String,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
 #[serde(rename_all = "camelCase")]
 pub struct Order {
-    pub symbol: String,
-    pub order_id: u64,
+    pub avg_price: String,
     pub client_order_id: String,
+    pub close_position: bool,
+    pub cum_quote: String,
+    pub executed_qty: String,
+    pub order_id: u64,
+    pub orig_qty: String,
+    pub orig_type: String,
+    pub position_side: String,
     #[serde(with = "string_or_float")]
     pub price: f64,
-    pub orig_qty: String,
-    pub executed_qty: String,
+    pub price_protect: String,
+    pub reduce_only: bool,
+    pub side: String,
     pub status: String,
+    #[serde(with = "string_or_float")]
+    pub stop_price: f64,
+    pub symbol: String,
+    pub time: u64,
     pub time_in_force: String,
     #[serde(rename = "type")]
     pub type_name: String,
-    pub side: String,
-    #[serde(with = "string_or_float")]
-    pub stop_price: f64,
-    pub iceberg_qty: String,
-    pub time: u64,
+    pub update_time: u64,
+    pub working_type: String,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
@@ -68,15 +105,6 @@ pub struct OrderCanceled {
     pub orig_client_order_id: String,
     pub order_id: u64,
     pub client_order_id: String,
-}
-
-#[derive(Debug, Serialize, Deserialize, Clone)]
-#[serde(rename_all = "camelCase")]
-pub struct Transaction {
-    pub symbol: String,
-    pub order_id: u64,
-    pub client_order_id: String,
-    pub transact_time: u64,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
